@@ -30,23 +30,58 @@ This template provides a banking assistant with:
 └── config.yml       # Training pipeline configuration
 ```
 
+### Installation
+
+Prerequisites:
+- Rasa Pro license
+- Python - supported Python versions: `>=3.10.0,<3.14`. For example, you can use [pyenv](https://github.com/pyenv/pyenv) to install Python 3.11.11: `pyenv install 3.11.11`
+
+After you cloned the repository, follow these installation steps:
+
+1. Navigate to the cloned repo:
+   ```bash
+   cd lena-hello-rasa
+   ```
+
+2. Set up the Python environment with `pyenv` or any other tool that manages Python versions:
+   ```bash
+   pyenv virtualenv 3.11.11 hello-rasa  # create a virtual environment
+   pyenv activate hello-rasa             # activate your virtual environment
+   pyenv local hello-rasa                # set auto-activation for this directory
+   ```
+
+3. Install the dependencies using `uv`:
+   ```bash
+   pip install uv
+   uv pip install -r requirements.txt
+   ```
+
+4. Create an environment file `.env` in the root of the project with the following 
+   content:
+   ```bash
+   RASA_PRO_LICENSE=<your rasa pro license key>
+   OPENAI_API_KEY=<your openai api key>
+   ```
+
 ## Useful commands
 
 ### Train a model
 
-```
+```commandline
 rasa train --data data --domain domain
 ```
 
 ### Talk to the bot
 
-```
+GUI-based interaction using Rasa inspector:
+
+```commandline
 rasa inspect
 ```
 
 ### Run E2E tests
 
-```
+```commandline
 rasa test e2e e2e_tests/
 ```
 
