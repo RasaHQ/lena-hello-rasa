@@ -1,0 +1,57 @@
+version: "3.1"
+actions:
+  - "action_human_handoff"
+
+slots: 
+ confirm_human_handoff:
+    type: "bool"
+    mappings:
+      - type: "from_llm"
+
+responses:
+  utter_ask_confirm_human_handoff:
+    - text: "Do you want to be connected to a {bank_name} specialist?"
+      translation:
+        fr: "Souhaitez-vous être mis en contact avec un spécialiste {bank_name} ?"
+        de: "Möchten Sie mit einem {bank_name}-Spezialisten verbunden werden?"
+      buttons:
+        - payload: "/SetSlots(confirm_human_handoff=True)"
+          title: "Yes"
+          translation:
+            fr:
+              title: "Oui"
+              payload: "/SetSlots(confirm_human_handoff=True)"
+            de:
+              title: "Ja"
+              payload: "/SetSlots(confirm_human_handoff=True)"
+        - payload: "/SetSlots(confirm_human_handoff=False)"
+          title: "No"
+          translation:
+            fr:
+              title: "Non"
+              payload: "/SetSlots(confirm_human_handoff=False)"
+            de:
+              title: "Nein"
+              payload: "/SetSlots(confirm_human_handoff=False)"
+
+  utter_transferring_to_human:
+    - text: "I'm connecting you with a {bank_name} specialist now. They'll be with you shortly!"
+      translation:
+        fr: "Je vous mets en contact avec un spécialiste {bank_name} maintenant. Ils seront avec vous sous peu !"
+        de: "Ich verbinde Sie jetzt mit einem {bank_name}-Spezialisten. Sie werden in Kürze bei Ihnen sein!"
+      metadata:
+        rephrase: True
+
+  utter_human_handoff_cancelled:
+    - text: "No problem! I'll continue helping you with your {bank_name} banking needs. What else can I assist you with?"
+      translation:
+        fr: "Pas de problème ! Je continuerai à vous aider avec vos besoins bancaires {bank_name}. Avec quoi d'autre puis-je vous aider ?"
+        de: "Kein Problem! Ich werde Ihnen weiterhin bei Ihren {bank_name}-Bankbedürfnissen helfen. Womit kann ich Ihnen sonst noch helfen?"
+      metadata:
+        rephrase: True
+
+  utter_transfer_to_manager:
+    - text: "I will transfer the following summary of our conversation to the {bank_name} Callback Manager:\n{summary}"
+      translation:
+        fr: "Je vais transférer le résumé suivant de notre conversation au gestionnaire de rappel {bank_name} :\n{summary}"
+        de: "Ich werde die folgende Zusammenfassung unseres Gesprächs an den {bank_name}-Rückrufmanager übertragen:\n{summary}"

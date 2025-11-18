@@ -1,0 +1,15 @@
+recipe: default.v1
+language: en
+additional_languages:
+  - fr
+  - de
+assistant_id: genius-test
+pipeline:
+- name: CompactLLMCommandGenerator
+  llm:
+    model_group: openai-gpt-4o
+  flow_retrieval:
+    active: false
+policies:
+- name: FlowPolicy
+- name: EnterpriseSearchPolicy

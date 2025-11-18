@@ -1,0 +1,23 @@
+slots:
+  recipient_account:
+    type: text
+    mappings:
+      - type: from_llm
+
+  amount_of_money:
+    type: float
+    mappings:
+      - type: from_llm
+
+responses:
+  utter_ask_recipient_account:
+    - text: Who should receive the payment?
+      translation:
+        fr: Qui devrait recevoir le paiement ?
+        de: Wer soll die Zahlung erhalten?
+
+  utter_ask_amount_of_money:
+    - text: How much money should be transferred?
+      translation:
+        fr: Combien d'argent doit être transféré ?
+        de: Wie viel Geld soll überwiesen werden?

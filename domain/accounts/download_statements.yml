@@ -1,0 +1,105 @@
+version: '3.1'
+slots:
+  statement_format:
+    type: categorical
+    values:
+      - pdf
+      - csv
+    mappings:
+      - type: from_llm
+
+responses:
+  utter_ask_statement_month:
+    - text: For which month would you like the statement?
+      translation:
+        fr: Pour quel mois souhaitez-vous le relevé ?
+        de: Für welchen Monat möchten Sie den Kontoauszug?
+  utter_ask_statement_year:
+    - text: For which year would you like the statement?
+      translation:
+        fr: Pour quelle année souhaitez-vous le relevé ?
+        de: Für welches Jahr möchten Sie den Kontoauszug?
+  utter_ask_statement_format:
+    - text: "Which format would you like your statement in?"
+      translation:
+        fr: "Dans quel format souhaitez-vous votre relevé ?"
+        de: "In welchem Format möchten Sie Ihren Kontoauszug?"
+      buttons:
+        - title: "PDF"
+          payload: "/SetSlots(statement_format=pdf)"
+          translation:
+            fr:
+              title: "PDF"
+              payload: "/SetSlots(statement_format=pdf)"
+            de:
+              title: "PDF"
+              payload: "/SetSlots(statement_format=pdf)"
+        - title: "CSV"
+          payload: "/SetSlots(statement_format=csv)"
+          translation:
+            fr:
+              title: "CSV"
+              payload: "/SetSlots(statement_format=csv)"
+            de:
+              title: "CSV"
+              payload: "/SetSlots(statement_format=csv)"
+  utter_ask_statement_download_confirmation:
+    - text: "Just to confirm, would you like to download your {statement_month} {statement_year} statement as a PDF?"
+      translation:
+        fr: "Juste pour confirmer, souhaitez-vous télécharger votre relevé de {statement_month} {statement_year} en PDF ?"
+        de: "Nur zur Bestätigung, möchten Sie Ihren Kontoauszug für {statement_month} {statement_year} als PDF herunterladen?"
+      buttons:
+        - title: "Yes"
+          payload: "/SetSlots(confirmation=true)"
+          translation:
+            fr:
+              title: "Oui"
+              payload: "/SetSlots(confirmation=true)"
+            de:
+              title: "Ja"
+              payload: "/SetSlots(confirmation=true)"
+        - title: "No"
+          payload: "/SetSlots(confirmation=false)"
+          translation:
+            fr:
+              title: "Non"
+              payload: "/SetSlots(confirmation=false)"
+            de:
+              title: "Nein"
+              payload: "/SetSlots(confirmation=false)"
+    - text: "Great! Should I go ahead and download the statement in PDF format for you?"
+      translation:
+        fr: "Parfait ! Dois-je procéder au téléchargement du relevé au format PDF pour vous ?"
+        de: "Großartig! Soll ich den Kontoauszug im PDF-Format für Sie herunterladen?"
+      buttons:
+        - title: "Yes"
+          payload: "/SetSlots(confirmation=true)"
+          translation:
+            fr:
+              title: "Oui"
+              payload: "/SetSlots(confirmation=true)"
+            de:
+              title: "Ja"
+              payload: "/SetSlots(confirmation=true)"
+        - title: "No"
+          payload: "/SetSlots(confirmation=false)"
+          translation:
+            fr:
+              title: "Non"
+              payload: "/SetSlots(confirmation=false)"
+            de:
+              title: "Nein"
+              payload: "/SetSlots(confirmation=false)"
+  utter_statement_download_complete:
+    - text: Your statement for {statement_month} {statement_year} in {statement_format}
+        format has been downloaded.
+      translation:
+        fr: Votre relevé de {statement_month} {statement_year} au format {statement_format}
+          a été téléchargé.
+        de: Ihr Kontoauszug für {statement_month} {statement_year} im Format {statement_format}
+          wurde heruntergeladen.
+  utter_statement_download_cancelled:
+    - text: Statement download cancelled.
+      translation:
+        fr: Téléchargement du relevé annulé.
+        de: Kontoauszug-Download abgebrochen.

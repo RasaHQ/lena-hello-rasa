@@ -1,0 +1,84 @@
+version: "3.1"
+
+slots:
+  confirm_correct_card:
+    type: bool
+    mappings:
+      - type: from_llm
+  replacement_reason:
+    type: categorical
+    values:
+      - lost
+      - damaged
+    mappings:
+      - type: from_llm
+  was_card_used_fraudulently:
+    type: bool
+    mappings:
+      - type: from_llm
+
+responses:
+  utter_ask_confirm_correct_card:
+    - text: I've found the card with number ****3452 on file. Is this the card you want to replace?
+      translation:
+        fr: J'ai trouvé la carte avec le numéro ****3452 dans nos dossiers. Est-ce la carte que vous souhaitez remplacer ?
+        de: Ich habe die Karte mit der Nummer ****3452 in den Unterlagen gefunden. Ist dies die Karte, die Sie ersetzen möchten?
+  utter_relevant_card_not_linked:
+    - text: Seems like I don't have the card you're asking about on file.
+      translation:
+        fr: Il semble que je n'ai pas la carte que vous demandez dans nos dossiers.
+        de: Es scheint, dass ich die Karte, nach der Sie fragen, nicht in den Unterlagen habe.
+  utter_ask_replacement_reason:
+    - text: Why do you need to replace your card?
+      translation:
+        fr: Pourquoi devez-vous remplacer votre carte ?
+        de: Warum müssen Sie Ihre Karte ersetzen?
+      buttons:
+      - title: "Lost"
+        payload: /SetSlots(replacement_reason=lost)
+        translation:
+          fr:
+            title: "Perdue"
+            payload: /SetSlots(replacement_reason=lost)
+          de:
+            title: "Verloren"
+            payload: /SetSlots(replacement_reason=lost)
+      - title: "Damaged"
+        payload: /SetSlots(replacement_reason=damaged)
+        translation:
+          fr:
+            title: "Endommagée"
+            payload: /SetSlots(replacement_reason=damaged)
+          de:
+            title: "Beschädigt"
+            payload: /SetSlots(replacement_reason=damaged)
+  utter_ask_was_card_used_fraudulently:
+    - text: Is it possible that someone else has managed to use your card?
+      translation:
+        fr: Est-il possible que quelqu'un d'autre ait réussi à utiliser votre carte ?
+        de: Ist es möglich, dass jemand anderes Ihre Karte benutzt hat?
+  utter_will_cancel_and_send_new:
+    - text: Alright, I'll cancel your card and send you a new one.
+      translation:
+        fr: D'accord, je vais annuler votre carte et vous en envoyer une nouvelle.
+        de: In Ordnung, ich werde Ihre Karte stornieren und Ihnen eine neue zusenden.
+  utter_new_card_has_been_ordered:
+    - text: Your new card should arrive in 3 to 5 business days in a white envelope.
+      translation:
+        fr: Votre nouvelle carte devrait arriver dans 3 à 5 jours ouvrables dans une enveloppe blanche.
+        de: Ihre neue Karte sollte in 3 bis 5 Werktagen in einem weißen Umschlag ankommen.
+  utter_report_fraud:
+    - text: I am sorry to hear that. Unfortunately, I can't directly handle fraudulently used cards. Please go to FinX.com/disputes, to report the fraud on your account.
+      translation:
+        fr: Je suis désolé d'apprendre cela. Malheureusement, je ne peux pas traiter directement les cartes utilisées frauduleusement. Veuillez vous rendre sur FinX.com/disputes pour signaler la fraude sur votre compte.
+        de: Das tut mir leid zu hören. Leider kann ich betrügerisch verwendete Karten nicht direkt bearbeiten. Bitte gehen Sie zu FinX.com/disputes, um den Betrug auf Ihrem Konto zu melden.
+  utter_unknown_replacement_reason_handover:
+    - text: Let me connect you to an agent, to get the details of what happened to your card.
+      translation:
+        fr: Permettez-moi de vous mettre en contact avec un agent pour obtenir les détails de ce qui est arrivé à votre carte.
+        de: Lassen Sie mich Sie mit einem Mitarbeiter verbinden, um die Details zu erfahren, was mit Ihrer Karte passiert ist.
+  utter_failed_handoff:
+    - text: I am sorry, I was not able to connect you to an agent. I have created a support ticket for you. Someone will reach out to you shortly.
+      translation:
+        fr: Je suis désolé, je n'ai pas pu vous mettre en contact avec un agent. J'ai créé un ticket de support pour vous. Quelqu'un vous contactera sous peu.
+        de: Es tut mir leid, ich konnte Sie nicht mit einem Mitarbeiter verbinden. Ich habe ein Support-Ticket für Sie erstellt. Jemand wird sich in Kürze bei Ihnen melden.

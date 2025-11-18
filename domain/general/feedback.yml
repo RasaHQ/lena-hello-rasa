@@ -1,0 +1,60 @@
+slots:
+  feedback_rating:
+    type: categorical
+    values: [thumbs_up, thumbs_down]
+    mappings:
+      - type: from_llm
+
+responses:
+  utter_ask_feedback_rating:
+    - text: "Before you go, how was your experience?"
+      translation:
+        fr: "Avant de partir, comment s'est passée votre expérience ?"
+        de: "Bevor Sie gehen, wie war Ihre Erfahrung?"
+      buttons:
+        - title: "👍 Great"
+          payload: "/SetSlots(feedback_rating=thumbs_up)"
+          translation:
+            fr:
+              title: "👍 Excellent"
+              payload: "/SetSlots(feedback_rating=thumbs_up)"
+            de:
+              title: "👍 Großartig"
+              payload: "/SetSlots(feedback_rating=thumbs_up)"
+        - title: "👎 Could be better"
+          payload: "/SetSlots(feedback_rating=thumbs_down)"
+          translation:
+            fr:
+              title: "👎 Pourrait être mieux"
+              payload: "/SetSlots(feedback_rating=thumbs_down)"
+            de:
+              title: "👎 Könnte besser sein"
+              payload: "/SetSlots(feedback_rating=thumbs_down)"
+
+  utter_thankyou_positive:
+    - text: "That's wonderful to hear! Thank you for your feedback! Have a fantastic day! 🌟"
+      translation:
+        fr: "C'est merveilleux à entendre ! Merci pour vos commentaires ! Passez une excellente journée ! 🌟"
+        de: "Das ist wunderbar zu hören! Vielen Dank für Ihr Feedback! Haben Sie einen fantastischen Tag! 🌟"
+    - text: "So glad we could help! Thanks for the positive feedback! Take care! 😊"
+      translation:
+        fr: "Nous sommes ravis d'avoir pu vous aider ! Merci pour les commentaires positifs ! Prenez soin de vous ! 😊"
+        de: "Wir freuen uns, dass wir helfen konnten! Danke für das positive Feedback! Passen Sie auf sich auf! 😊"
+    - text: "Amazing! We're thrilled you had a great experience. Have a wonderful day! 🎉"
+      translation:
+        fr: "Incroyable ! Nous sommes ravis que vous ayez eu une excellente expérience. Passez une merveilleuse journée ! 🎉"
+        de: "Fantastisch! Wir freuen uns, dass Sie eine großartige Erfahrung gemacht haben. Haben Sie einen wundervollen Tag! 🎉"
+
+  utter_thankyou_negative:
+    - text: "Thank you for your honest feedback. We're always working to improve our service. Have a good day."
+      translation:
+        fr: "Merci pour vos commentaires honnêtes. Nous travaillons toujours à améliorer notre service. Passez une bonne journée."
+        de: "Vielen Dank für Ihr ehrliches Feedback. Wir arbeiten stets daran, unseren Service zu verbessern. Haben Sie einen schönen Tag."
+    - text: "We appreciate your feedback and will use it to make our service better. Thank you for your time."
+      translation:
+        fr: "Nous apprécions vos commentaires et les utiliserons pour améliorer notre service. Merci pour votre temps."
+        de: "Wir schätzen Ihr Feedback und werden es nutzen, um unseren Service zu verbessern. Vielen Dank für Ihre Zeit."
+    - text: "Thanks for letting us know. Your feedback helps us improve. Take care!"
+      translation:
+        fr: "Merci de nous avoir informés. Vos commentaires nous aident à nous améliorer. Prenez soin de vous !"
+        de: "Danke, dass Sie es uns mitgeteilt haben. Ihr Feedback hilft uns, uns zu verbessern. Passen Sie auf sich auf!"

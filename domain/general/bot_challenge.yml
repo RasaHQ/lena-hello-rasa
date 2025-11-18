@@ -1,0 +1,7 @@
+
+responses:
+  utter_bot_challenge:
+    - text: "You got it - I'm a virtual agent. I'll do my best to help with your {skills_summary}."
+      translation:
+        fr: "Vous avez raison - je suis un agent virtuel. Je ferai de mon mieux pour vous aider avec votre {skills_summary}."
+        de: "Richtig - ich bin ein virtueller Agent. Ich werde mein Bestes tun, um Ihnen bei Ihren {skills_summary} zu helfen."

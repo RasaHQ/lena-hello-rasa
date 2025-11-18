@@ -1,0 +1,14 @@
+responses:
+  utter_no_relevant_answer_found:
+    - text: "I'm sorry, I can't help with that request. You can try asking about your {bank_name} account balance, transfers, card management, or say 'help' to see what I can do."
+      translation:
+        fr: "Je suis désolé, je ne peux pas vous aider avec cette demande. Vous pouvez essayer de poser des questions sur le solde de votre compte {bank_name}, les virements, la gestion des cartes, ou dites 'aide' pour voir ce que je peux faire."
+        de: "Es tut mir leid, ich kann bei dieser Anfrage nicht helfen. Sie können nach Ihrem {bank_name}-Kontostand, Überweisungen, Kartenverwaltung fragen oder 'Hilfe' sagen, um zu sehen, was ich tun kann."
+      metadata:
+        rephrase: True
+    - text: "I'm not able to assist with that. I can help with {bank_name} banking tasks like checking balances, managing cards, or transferring money. What would you like to do?"
+      translation:
+        fr: "Je ne peux pas vous aider avec cela. Je peux vous aider avec les tâches bancaires {bank_name} comme vérifier les soldes, gérer les cartes ou transférer de l'argent. Que souhaitez-vous faire ?"
+        de: "Ich kann dabei nicht helfen. Ich kann bei {bank_name}-Bankaufgaben wie Kontostandsabfragen, Kartenverwaltung oder Geldüberweisungen helfen. Was möchten Sie tun?"
+      metadata:
+        rephrase: True

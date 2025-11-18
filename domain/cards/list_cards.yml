@@ -1,0 +1,22 @@
+version: "3.1"
+
+responses:
+  utter_list_cards:
+    - text: "You currently have the following bank cards:\n{cards_list}"
+      translation:
+        fr: "Vous avez actuellement les cartes bancaires suivantes :\n{cards_list}"
+        de: "Sie haben derzeit die folgenden Bankkarten:\n{cards_list}"
+  utter_no_cards:
+    - text: "You currently have no bank cards."
+      translation:
+        fr: "Vous n'avez actuellement aucune carte bancaire."
+        de: "Sie haben derzeit keine Bankkarten."
+
+slots:
+  cards_list:
+    type: text
+    mappings:
+      - type: controlled
+
+actions: 
+  - list_cards

@@ -1,0 +1,55 @@
+actions:
+  - check_transfer_limit
+
+slots:
+  transfer_limit_type:
+    type: categorical
+    values:
+      - daily
+      - monthly
+    mappings:
+      - type: from_llm
+
+  transfer_limit:
+    type: float
+    mappings:
+      - type: controlled
+
+responses:
+
+  utter_ask_transfer_limit_type:
+    - text: "Would you like to check your daily or monthly transfer limit?"
+      translation:
+        fr: "Souhaitez-vous vérifier votre limite de virement quotidienne ou mensuelle ?"
+        de: "Möchten Sie Ihr tägliches oder monatliches Überweisungslimit überprüfen?"
+      buttons:
+        - title: Daily
+          payload: "/SetSlots(transfer_limit_type=daily)"
+          translation:
+            fr:
+              title: Quotidienne
+              payload: "/SetSlots(transfer_limit_type=daily)"
+            de:
+              title: Täglich
+              payload: "/SetSlots(transfer_limit_type=daily)"
+        - title: Monthly
+          payload: "/SetSlots(transfer_limit_type=monthly)"
+          translation:
+            fr:
+              title: Mensuelle
+              payload: "/SetSlots(transfer_limit_type=monthly)"
+            de:
+              title: Monatlich
+              payload: "/SetSlots(transfer_limit_type=monthly)"
+
+  utter_transfer_limit_error:
+    - text: "I am sorry, but I couldn't retrieve your transfer limit right now. Please try again later."
+      translation:
+        fr: "Je suis désolé, mais je n'ai pas pu récupérer votre limite de virement pour le moment. Veuillez réessayer plus tard."
+        de: "Es tut mir leid, aber ich konnte Ihr Überweisungslimit derzeit nicht abrufen. Bitte versuchen Sie es später noch einmal."
+
+  utter_show_transfer_limit:
+    - text: "Your {transfer_limit_type} transfer limit is ${transfer_limit}."
+      translation:
+        fr: "Votre limite de virement {transfer_limit_type} est de ${transfer_limit}."
+        de: "Ihr {transfer_limit_type} Überweisungslimit beträgt ${transfer_limit}."

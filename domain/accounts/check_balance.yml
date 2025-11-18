@@ -1,0 +1,21 @@
+version: "3.1"
+
+slots:
+  current_balance:
+    type: float
+    mappings:
+      - type: controlled
+
+actions:
+  - check_balance
+
+responses:
+  utter_current_balance:
+    - text: "Your current account balance is {current_balance}."
+      translation:
+        fr: "Le solde actuel de votre compte est de {current_balance}."
+        de: "Ihr aktueller Kontostand beträgt {current_balance}."
+    - text: "You have {current_balance} available in your {bank_name} account."
+      translation:
+        fr: "Vous avez {current_balance} disponible sur votre compte {bank_name}."
+        de: "Sie haben {current_balance} auf Ihrem {bank_name}-Konto verfügbar."

@@ -1,0 +1,34 @@
+version: "3.1"
+
+slots:
+  bank_name:
+    type: text
+    initial_value: "Fenlo"
+    mappings:
+      - type: controlled
+  agent_name:
+    type: text
+    initial_value: "Finley"
+    mappings:
+      - type: controlled
+
+responses:
+  utter_greeting:
+    - text: "Hi there! I'm {agent_name} 👋. \n How can I help you today?"
+      translation:
+        fr: "Bonjour ! Je suis {agent_name} 👋. \n Comment puis-je vous aider aujourd'hui ?"
+        de: "Hallo! Ich bin {agent_name} 👋. \n Wie kann ich Ihnen heute helfen?"
+      metadata:
+        rephrase: True
+  utter_hello:
+    - text: "Hi nice to meet you - I'm here to help with your account. How can I assist you?"
+      translation:
+        fr: "Bonjour, ravi de vous rencontrer - je suis là pour vous aider avec votre compte. Comment puis-je vous assister ?"
+        de: "Hallo, schön Sie kennenzulernen - ich bin hier, um Ihnen bei Ihrem Konto zu helfen. Wie kann ich Ihnen assistieren?"
+      metadata:
+        rephrase: True
+  utter_help:
+    - text: "I can help you with checking your balance, transferring money, managing your cards, and viewing transactions. \n\n Here's a few things you can ask me: \n- What's my account balance? \n- Transfer $50 to Alice. \n- Block my card. \n- Show my recent transactions."
+      translation:
+        fr: "Je peux vous aider à vérifier votre solde, transférer de l'argent, gérer vos cartes et consulter vos transactions. \n\n Voici quelques questions que vous pouvez me poser : \n- Quel est le solde de mon compte ? \n- Transférer 50$ à Alice. \n- Bloquer ma carte. \n- Afficher mes transactions récentes."
+        de: "Ich kann Ihnen helfen, Ihr Guthaben zu überprüfen, Geld zu überweisen, Ihre Karten zu verwalten und Transaktionen anzuzeigen. \n\n Hier sind ein paar Dinge, die Sie mich fragen können: \n- Was ist mein Kontostand? \n- Überweise 50$ an Alice. \n- Blockiere meine Karte. \n- Zeige meine letzten Transaktionen."

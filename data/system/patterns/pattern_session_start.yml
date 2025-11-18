@@ -1,0 +1,12 @@
+flows:
+  pattern_session_start:
+    description: Flow for starting the conversation
+    name: pattern session start
+    nlu_trigger:
+        - intent: session_start
+    persisted_slots:
+      - language
+    steps:
+      - set_slots:
+        - language: "fr"
+      - link: welcome

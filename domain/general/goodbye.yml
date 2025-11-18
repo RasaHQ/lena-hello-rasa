@@ -1,0 +1,22 @@
+responses:
+  utter_goodbye:
+    - text: "Thanks for banking with {bank_name} — take care!"
+      translation:
+        fr: "Merci d'avoir choisi {bank_name} — prenez soin de vous !"
+        de: "Danke, dass Sie bei {bank_name} banken — passen Sie auf sich auf!"
+    - text: "Thanks for the chat. Have a great day with {bank_name}!"
+      translation:
+        fr: "Merci pour la discussion. Passez une excellente journée avec {bank_name} !"
+        de: "Danke für das Gespräch. Haben Sie einen großartigen Tag mit {bank_name}!"
+    - text: "Catch you later! Feel free to reach out to {bank_name} anytime."
+      translation:
+        fr: "À bientôt ! N'hésitez pas à contacter {bank_name} à tout moment."
+        de: "Bis später! Wenden Sie sich jederzeit gerne an {bank_name}."
+    - text: "Goodbye for now — {bank_name} is here if you need anything."
+      translation:
+        fr: "Au revoir pour l'instant — {bank_name} est là si vous avez besoin de quoi que ce soit."
+        de: "Auf Wiedersehen für jetzt — {bank_name} ist hier, wenn Sie etwas brauchen."
+    - text: "Take care! Let {bank_name} know if you have any other questions."
+      translation:
+        fr: "Prenez soin de vous ! Faites savoir à {bank_name} si vous avez d'autres questions."
+        de: "Passen Sie auf sich auf! Lassen Sie {bank_name} wissen, wenn Sie weitere Fragen haben."

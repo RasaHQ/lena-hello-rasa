@@ -1,0 +1,450 @@
+version: "3.1"
+
+actions:
+  - check_transfer_funds
+  - execute_transfer
+  - execute_recurrent_payment
+
+slots:
+
+  transfer_type:
+    type: categorical
+    values:
+      - self transfer
+      - third party
+    mappings:
+      - type: from_llm
+
+  transfer_timing_type:
+    type: categorical
+    values:
+      - immediate
+      - scheduled
+      - recurring
+    mappings:
+      - type: from_llm
+
+  recurrent_payment_type:
+    type: categorical
+    values:
+      - direct debit
+      - standing order
+    mappings:
+      - type: from_llm
+
+  recurrent_payment_frequency:
+    type: categorical
+    values:
+      - weekly
+      - monthly
+      - yearly
+    mappings:
+      - type: from_llm
+
+  has_sufficient_funds:
+    type: bool
+    mappings:
+      - type: controlled
+
+  transfer_successful:
+    type: bool
+    mappings:
+      - type: controlled
+
+  setup_recurrent_payment_successful:
+    type: bool
+    mappings:
+      - type: controlled
+
+  self_transfer_source_account:
+    type: categorical
+    values: [savings, checking]
+    mappings:
+      - type: from_llm
+
+  self_transfer_destination_account:
+    type: categorical
+    values: [savings, checking]
+    mappings:
+      - type: from_llm
+
+responses:
+
+
+
+  utter_ask_transfer_type:
+    - text: What type of transfer would you like to make?
+      translation:
+        fr: Quel type de virement souhaitez-vous effectuer ?
+        de: Welche Art von Überweisung möchten Sie vornehmen?
+      buttons:
+        - title: Send to someone else (domestic)
+          payload: /SetSlots(transfer_type=third party)
+          translation:
+            fr:
+              title: Envoyer à quelqu'un d'autre (national)
+              payload: /SetSlots(transfer_type=third party)
+            de:
+              title: An jemand anderen senden (Inland)
+              payload: /SetSlots(transfer_type=third party)
+        - title: Transfer between your own accounts
+          payload: /SetSlots(transfer_type=self transfer)
+          translation:
+            fr:
+              title: Transférer entre vos propres comptes
+              payload: /SetSlots(transfer_type=self transfer)
+            de:
+              title: Zwischen Ihren eigenen Konten überweisen
+              payload: /SetSlots(transfer_type=self transfer)
+
+  utter_inform_on_wrong_transfer_type:
+    - text: That doesn't seem like a valid transfer type.
+      translation:
+        fr: Cela ne semble pas être un type de virement valide.
+        de: Das scheint keine gültige Überweisungsart zu sein.
+
+  utter_ask_transfer_timing_type:
+    - text: Let me know when you'd like this transfer to happen?
+      translation:
+        fr: Faites-moi savoir quand vous souhaitez que ce virement ait lieu ?
+        de: Lassen Sie mich wissen, wann diese Überweisung stattfinden soll?
+      buttons:
+        - title: Send now
+          payload: /SetSlots(transfer_timing_type=immediate)
+          translation:
+            fr:
+              title: Envoyer maintenant
+              payload: /SetSlots(transfer_timing_type=immediate)
+            de:
+              title: Jetzt senden
+              payload: /SetSlots(transfer_timing_type=immediate)
+        - title: Schedule for later date
+          payload: /SetSlots(transfer_timing_type=scheduled)
+          translation:
+            fr:
+              title: Programmer pour une date ultérieure
+              payload: /SetSlots(transfer_timing_type=scheduled)
+            de:
+              title: Für späteren Termin planen
+              payload: /SetSlots(transfer_timing_type=scheduled)
+        - title: Set it up as a recurring payment
+          payload: /SetSlots(transfer_timing_type=recurring)
+          translation:
+            fr:
+              title: Configurer comme paiement récurrent
+              payload: /SetSlots(transfer_timing_type=recurring)
+            de:
+              title: Als wiederkehrende Zahlung einrichten
+              payload: /SetSlots(transfer_timing_type=recurring)
+
+  utter_inform_on_wrong_transfer_timing_type:
+    - text: |
+        That doesn't seem like a valid option for when to send the money.
+        You can choose to send it now, schedule it for later, or set it up as a recurring payment.
+      translation:
+        fr: |
+          Cela ne semble pas être une option valide pour l'envoi de l'argent.
+          Vous pouvez choisir de l'envoyer maintenant, de le programmer pour plus tard ou de le configurer comme paiement récurrent.
+        de: |
+          Das scheint keine gültige Option zu sein, wann das Geld gesendet werden soll.
+          Sie können wählen, es jetzt zu senden, für später zu planen oder als wiederkehrende Zahlung einzurichten.
+
+  utter_transfer_money_insufficient_funds:
+    - text: "I'm sorry, but there aren't enough funds available in your account for this transfer amount."
+      translation:
+        fr: "Je suis désolé, mais il n'y a pas suffisamment de fonds disponibles sur votre compte pour ce montant de virement."
+        de: "Es tut mir leid, aber es sind nicht genügend Mittel auf Ihrem Konto für diesen Überweisungsbetrag verfügbar."
+      metadata:
+        rephrase: True
+
+  utter_ask_schedule_transaction_date:
+    - text: "What date would you like to schedule this transfer for?"
+      translation:
+        fr: "À quelle date souhaitez-vous programmer ce virement ?"
+        de: "Für welches Datum möchten Sie diese Überweisung planen?"
+      metadata:
+        rephrase: True
+
+  utter_ask_schedule_transaction_time:
+    - text: "What time on that day should I process the transfer?"
+      translation:
+        fr: "À quelle heure ce jour-là dois-je traiter le virement ?"
+        de: "Zu welcher Uhrzeit an diesem Tag soll ich die Überweisung durchführen?"
+      metadata:
+        rephrase: True
+
+  utter_ask_recurrent_payment_type:
+    - text: What type of payment would you like to set up?
+      translation:
+        fr: Quel type de paiement souhaitez-vous configurer ?
+        de: Welche Art von Zahlung möchten Sie einrichten?
+      buttons:
+        - title: Direct Debit
+          payload: /SetSlots(recurrent_payment_type=direct debit)
+          translation:
+            fr:
+              title: Prélèvement automatique
+              payload: /SetSlots(recurrent_payment_type=direct debit)
+            de:
+              title: Lastschrift
+              payload: /SetSlots(recurrent_payment_type=direct debit)
+        - title: Standing Order
+          payload: /SetSlots(recurrent_payment_type=standing order)
+          translation:
+            fr:
+              title: Ordre permanent
+              payload: /SetSlots(recurrent_payment_type=standing order)
+            de:
+              title: Dauerauftrag
+              payload: /SetSlots(recurrent_payment_type=standing order)
+
+  utter_ask_recurrent_payment_frequency:
+    - text: How often should the payment be made?
+      translation:
+        fr: À quelle fréquence le paiement doit-il être effectué ?
+        de: Wie oft soll die Zahlung erfolgen?
+      buttons:
+        - title: Weekly
+          payload: /SetSlots(recurrent_payment_frequency=weekly)
+          translation:
+            fr:
+              title: Hebdomadaire
+              payload: /SetSlots(recurrent_payment_frequency=weekly)
+            de:
+              title: Wöchentlich
+              payload: /SetSlots(recurrent_payment_frequency=weekly)
+        - title: Monthly
+          payload: /SetSlots(recurrent_payment_frequency=monthly)
+          translation:
+            fr:
+              title: Mensuel
+              payload: /SetSlots(recurrent_payment_frequency=monthly)
+            de:
+              title: Monatlich
+              payload: /SetSlots(recurrent_payment_frequency=monthly)
+        - title: Yearly
+          payload: /SetSlots(recurrent_payment_frequency=yearly)
+          translation:
+            fr:
+              title: Annuel
+              payload: /SetSlots(recurrent_payment_frequency=yearly)
+            de:
+              title: Jährlich
+              payload: /SetSlots(recurrent_payment_frequency=yearly)
+
+  utter_ask_recurrent_payment_start_date:
+    - text: "When would you like the recurring payments to start?"
+      translation:
+        fr: "Quand souhaitez-vous que les paiements récurrents commencent ?"
+        de: "Wann sollen die wiederkehrenden Zahlungen beginnen?"
+      metadata:
+        rephrase: True
+
+  utter_ask_recurrent_payment_end_date:
+    - text: "When should the recurring payments stop?"
+      translation:
+        fr: "Quand les paiements récurrents doivent-ils s'arrêter ?"
+        de: "Wann sollen die wiederkehrenden Zahlungen enden?"
+      metadata:
+        rephrase: True
+
+  utter_invalid_recurrent_payment_end_date:
+    - text: "The end date needs to be after the start date. Could you give me a valid end date for the recurring payment?"
+      translation:
+        fr: "La date de fin doit être postérieure à la date de début. Pourriez-vous me donner une date de fin valide pour le paiement récurrent ?"
+        de: "Das Enddatum muss nach dem Startdatum liegen. Könnten Sie mir ein gültiges Enddatum für die wiederkehrende Zahlung geben?"
+      metadata:
+        rephrase: True
+
+  utter_ask_self_transfer_source_account:
+    - text: Which account do you want to transfer money from - savings or checking?
+      translation:
+        fr: De quel compte souhaitez-vous transférer de l'argent - épargne ou courant ?
+        de: Von welchem Konto möchten Sie Geld überweisen - Sparkonto oder Girokonto?
+
+  utter_ask_self_transfer_destination_account:
+    - text: Which account you want to transfer money to - savings or checking?
+      translation:
+        fr: Vers quel compte souhaitez-vous transférer de l'argent - épargne ou courant ?
+        de: Auf welches Konto möchten Sie Geld überweisen - Sparkonto oder Girokonto?
+
+  utter_ask_immediate_transfer_confirmation:
+    - text: |
+        You're about to perform an instant transfer {amount_of_money} to {recipient_account}.
+        Do you want to proceed?
+      translation:
+        fr: |
+          Vous êtes sur le point d'effectuer un virement instantané de {amount_of_money} vers {recipient_account}.
+          Voulez-vous continuer ?
+        de: |
+          Sie sind dabei, eine Sofortüberweisung von {amount_of_money} an {recipient_account} durchzuführen.
+          Möchten Sie fortfahren?
+      buttons:
+        - payload: /SetSlots(confirmation=true)
+          title: "Yes"
+          translation:
+            fr:
+              title: "Oui"
+              payload: /SetSlots(confirmation=true)
+            de:
+              title: "Ja"
+              payload: /SetSlots(confirmation=true)
+        - payload: /SetSlots(confirmation=false)
+          title: "No, cancel the transfer"
+          translation:
+            fr:
+              title: "Non, annuler le virement"
+              payload: /SetSlots(confirmation=false)
+            de:
+              title: "Nein, Überweisung abbrechen"
+              payload: /SetSlots(confirmation=false)
+
+  utter_ask_setup_scheduled_transfer_confirmation:
+    - text: |
+        You're scheduling a transfer of {amount_of_money} to {recipient_account} on {date} at {time}.
+        Do you want to proceed?
+      translation:
+        fr: |
+          Vous programmez un virement de {amount_of_money} vers {recipient_account} le {date} à {time}.
+          Voulez-vous continuer ?
+        de: |
+          Sie planen eine Überweisung von {amount_of_money} an {recipient_account} am {date} um {time}.
+          Möchten Sie fortfahren?
+      buttons:
+        - payload: /SetSlots(confirmation=true)
+          title: "Yes"
+          translation:
+            fr:
+              title: "Oui"
+              payload: /SetSlots(confirmation=true)
+            de:
+              title: "Ja"
+              payload: /SetSlots(confirmation=true)
+        - payload: /SetSlots(confirmation=false)
+          title: "No, cancel the transfer"
+          translation:
+            fr:
+              title: "Non, annuler le virement"
+              payload: /SetSlots(confirmation=false)
+            de:
+              title: "Nein, Überweisung abbrechen"
+              payload: /SetSlots(confirmation=false)
+
+  utter_ask_setup_recurring_payment_confirmation:
+    - text: |
+        You're setting up a recurring {recurrent_payment_type} to transfer {amount_of_money} to {recipient_account}. 
+        The payment will be made {recurrent_payment_frequency}, starting on {date_range_start} and ending on {date_range_end}.
+        Do you want to proceed?
+      translation:
+        fr: |
+          Vous configurez un {recurrent_payment_type} récurrent pour transférer {amount_of_money} vers {recipient_account}. 
+          Le paiement sera effectué {recurrent_payment_frequency}, à partir du {date_range_start} et se terminant le {date_range_end}.
+          Voulez-vous continuer ?
+        de: |
+          Sie richten eine wiederkehrende {recurrent_payment_type} ein, um {amount_of_money} an {recipient_account} zu überweisen. 
+          Die Zahlung erfolgt {recurrent_payment_frequency}, beginnend am {date_range_start} und endend am {date_range_end}.
+          Möchten Sie fortfahren?
+      buttons:
+        - payload: /SetSlots(confirmation=true)
+          title: "Yes"
+          translation:
+            fr:
+              title: "Oui"
+              payload: /SetSlots(confirmation=true)
+            de:
+              title: "Ja"
+              payload: /SetSlots(confirmation=true)
+        - payload: /SetSlots(confirmation=false)
+          title: "No, cancel the transfer"
+          translation:
+            fr:
+              title: "Non, annuler le virement"
+              payload: /SetSlots(confirmation=false)
+            de:
+              title: "Nein, Überweisung abbrechen"
+              payload: /SetSlots(confirmation=false)
+
+  utter_ask_self_transfer_final_confirmation:
+    - text: |
+        You're about to transfer {amount_of_money} from your {self_transfer_source_account} to {self_transfer_destination_account}.
+        Do you want to proceed?
+      translation:
+        fr: |
+          Vous êtes sur le point de transférer {amount_of_money} de votre {self_transfer_source_account} vers {self_transfer_destination_account}.
+          Voulez-vous continuer ?
+        de: |
+          Sie sind dabei, {amount_of_money} von Ihrem {self_transfer_source_account} auf {self_transfer_destination_account} zu überweisen.
+          Möchten Sie fortfahren?
+      buttons:
+        - payload: /SetSlots(confirmation=true)
+          title: "Yes"
+          translation:
+            fr:
+              title: "Oui"
+              payload: /SetSlots(confirmation=true)
+            de:
+              title: "Ja"
+              payload: /SetSlots(confirmation=true)
+        - payload: /SetSlots(confirmation=false)
+          title: "No, cancel the transfer"
+          translation:
+            fr:
+              title: "Non, annuler le virement"
+              payload: /SetSlots(confirmation=false)
+            de:
+              title: "Nein, Überweisung abbrechen"
+              payload: /SetSlots(confirmation=false)
+
+  utter_self_transfer_completed:
+    - text: Successfully transferred {amount_of_money} from {self_transfer_source_account} to {self_transfer_destination_account}.
+      translation:
+        fr: Virement de {amount_of_money} effectué avec succès de {self_transfer_source_account} vers {self_transfer_destination_account}.
+        de: Erfolgreich {amount_of_money} von {self_transfer_source_account} auf {self_transfer_destination_account} überwiesen.
+
+  utter_transfer_failed:
+    - text: Something went wrong. Couldn't complete the transfer.
+      translation:
+        fr: Quelque chose s'est mal passé. Impossible de terminer le virement.
+        de: Etwas ist schief gelaufen. Die Überweisung konnte nicht abgeschlossen werden.
+
+  utter_transfer_completed:
+    - text: Successfully transferred {amount_of_money} to {recipient_account}.
+      translation:
+        fr: Virement de {amount_of_money} vers {recipient_account} effectué avec succès.
+        de: Erfolgreich {amount_of_money} an {recipient_account} überwiesen.
+
+  utter_transfer_cancelled:
+    - text: Transfer cancelled.
+      translation:
+        fr: Virement annulé.
+        de: Überweisung abgebrochen.
+
+  utter_schedule_transaction_complete:
+    - text: Transfer is scheduled.
+      translation:
+        fr: Le virement est programmé.
+        de: Die Überweisung ist geplant.
+
+  utter_recurring_payment_setup_complete:
+    - text: Your payment has been set up.
+      translation:
+        fr: Votre paiement a été configuré.
+        de: Ihre Zahlung wurde eingerichtet.
+
+  utter_recurring_payment_setup_failed:
+      - text: Sorry, your payment could not be set up.
+        translation:
+          fr: Désolé, votre paiement n'a pas pu être configuré.
+          de: Entschuldigung, Ihre Zahlung konnte nicht eingerichtet werden.
+
+  utter_recurring_payment_setup_failed_handover:
+    - text: Let me connect you to an agent, to get the details of what happened to your payment.
+      translation:
+        fr: Permettez-moi de vous mettre en contact avec un agent pour obtenir les détails de ce qui est arrivé à votre paiement.
+        de: Lassen Sie mich Sie mit einem Mitarbeiter verbinden, um die Details zu erfahren, was mit Ihrer Zahlung passiert ist.
+
+  utter_recurring_payment_setup_cancelled:
+      - text: Your payment has been cancelled.
+        translation:
+          fr: Votre paiement a été annulé.
+          de: Ihre Zahlung wurde storniert.

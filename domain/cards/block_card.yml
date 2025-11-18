@@ -1,0 +1,107 @@
+version: '3.1'
+slots:
+  card_block_type:
+    type: categorical
+    values:
+      - permanent
+      - temporary
+    mappings:
+    - type: from_llm
+
+responses:
+  utter_start_block_card:
+    - text: "I can help you block your card right away."
+      translation:
+        fr: "Je peux vous aider à bloquer votre carte immédiatement."
+        de: "Ich kann Ihnen sofort helfen, Ihre Karte zu sperren."
+      metadata:
+        rephrase: True
+  utter_ask_card_block_type:
+    - text: "Would you like to permanently block your card or just freeze it temporarily?"
+      translation:
+        fr: "Souhaitez-vous bloquer définitivement votre carte ou simplement la geler temporairement ?"
+        de: "Möchten Sie Ihre Karte dauerhaft sperren oder nur vorübergehend einfrieren?"
+      buttons:
+        - title: "Block permanently"
+          payload: /SetSlots(card_block_type=permanent)
+          translation:
+            fr:
+              title: "Bloquer définitivement"
+              payload: /SetSlots(card_block_type=permanent)
+            de:
+              title: "Dauerhaft sperren"
+              payload: /SetSlots(card_block_type=permanent)
+        - title: "Freeze temporarily"
+          payload: /SetSlots(card_block_type=temporary)
+          translation:
+            fr:
+              title: "Geler temporairement"
+              payload: /SetSlots(card_block_type=temporary)
+            de:
+              title: "Vorübergehend einfrieren"
+              payload: /SetSlots(card_block_type=temporary)
+  utter_block_card_successful:
+    - text: "Done! Your card has been permanently blocked."
+      translation:
+        fr: "Terminé ! Votre carte a été bloquée définitivement."
+        de: "Fertig! Ihre Karte wurde dauerhaft gesperrt."
+  utter_block_card_cancelled:
+    - text: "No problem! I've cancelled the block request. Your card remains active."
+      translation:
+        fr: "Pas de problème ! J'ai annulé la demande de blocage. Votre carte reste active."
+        de: "Kein Problem! Ich habe die Sperrungsanfrage abgebrochen. Ihre Karte bleibt aktiv."
+  utter_ask_block_card_confirmation:
+    - condition: slots.card_block_type == "permanent"
+      text: "Are you sure you want to permanently block the card {bank_card_number}?"
+      translation:
+        fr: "Êtes-vous sûr de vouloir bloquer définitivement la carte {bank_card_number} ?"
+        de: "Sind Sie sicher, dass Sie die Karte {bank_card_number} dauerhaft sperren möchten?"
+      buttons:
+        - title: "Yes"
+          payload: "/SetSlots(confirmation=true)"
+          translation:
+            fr:
+              title: "Oui"
+              payload: "/SetSlots(confirmation=true)"
+            de:
+              title: "Ja"
+              payload: "/SetSlots(confirmation=true)"
+        - title: "No"
+          payload: "/SetSlots(confirmation=false)"
+          translation:
+            fr:
+              title: "Non"
+              payload: "/SetSlots(confirmation=false)"
+            de:
+              title: "Nein"
+              payload: "/SetSlots(confirmation=false)"
+    - condition: slots.card_block_type == "temporary"
+      text: "Are you sure you want to temporarily freeze the card {bank_card_number}?"
+      translation:
+        fr: "Êtes-vous sûr de vouloir geler temporairement la carte {bank_card_number} ?"
+        de: "Sind Sie sicher, dass Sie die Karte {bank_card_number} vorübergehend einfrieren möchten?"
+      buttons:
+        - title: "Yes"
+          payload: "/SetSlots(confirmation=true)"
+          translation:
+            fr:
+              title: "Oui"
+              payload: "/SetSlots(confirmation=true)"
+            de:
+              title: "Ja"
+              payload: "/SetSlots(confirmation=true)"
+        - title: "No"
+          payload: "/SetSlots(confirmation=false)"
+          translation:
+            fr:
+              title: "Non"
+              payload: "/SetSlots(confirmation=false)"
+            de:
+              title: "Nein"
+              payload: "/SetSlots(confirmation=false)"
+
+  utter_freeze_card_successful:
+    - text: "Your card has been temporarily frozen."
+      translation:
+        fr: "Votre carte a été gelée temporairement."
+        de: "Ihre Karte wurde vorübergehend eingefroren."
