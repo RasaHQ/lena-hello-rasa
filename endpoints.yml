@@ -1,5 +1,5 @@
 action_endpoint:
-  actions_module: "actions"
+  url: http://localhost:5055/webhook
 
 model_groups:
   - id: openai-gpt-4o
@@ -12,3 +12,12 @@ model_groups:
     models:
       - provider: openai
         model: text-embedding-3-large
+  - id: openai-gpt-4o-mini
+    models:
+      - provider: openai
+        model: gpt-4o-mini-2024-07-18
+
+nlg:
+  type: rephrase
+  llm:
+    model_group: openai-gpt-4o-mini
