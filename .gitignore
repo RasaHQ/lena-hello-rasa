@@ -40,3 +40,5 @@ MANIFEST
 # rasa
 models/
 .rasa/
+.github/skills/
+.vscode/
