@@ -1,3 +1,6 @@
+actions:
+  - "action_end_session"
+
 slots:
   feedback_rating:
     type: categorical

@@ -23,4 +23,4 @@ flows:
           - else: initiate_download
       - id: initiate_download
         action: utter_statement_download_complete
-        next: END
+      - link: leave_feedback

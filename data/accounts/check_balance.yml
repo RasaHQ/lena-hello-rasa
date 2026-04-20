@@ -7,3 +7,4 @@ flows:
     steps:
       - action: check_balance
       - action: utter_current_balance
+      - link: leave_feedback

@@ -14,7 +14,10 @@ flows:
           - else: negative_response
       - id: positive_response
         action: utter_thankyou_positive
-        next: END
+        next: end_session
       - id: negative_response
         action: utter_thankyou_negative
+        next: end_session
+      - id: end_session
+        action: action_end_session
         next: END

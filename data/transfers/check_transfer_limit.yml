@@ -16,3 +16,4 @@ flows:
 
       - id: show_transfer_limit
         action: utter_show_transfer_limit
+      - link: leave_feedback

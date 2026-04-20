@@ -31,15 +31,18 @@ flows:
           - if: not slots.confirmation
             then:
               - action: utter_block_card_cancelled
-                next: END
+                next: feedback
           - if: slots.card_block_type is "permanent"
             then: execute_permanent_block
           - else: execute_temporary_freeze
 
       - id: execute_permanent_block
         action: utter_block_card_successful
-        next: END
+        next: feedback
 
       - id: execute_temporary_freeze
         action: utter_freeze_card_successful
-        next: END
+        next: feedback
+
+      - id: feedback
+        link: leave_feedback

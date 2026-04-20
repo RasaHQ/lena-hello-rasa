@@ -32,4 +32,4 @@ flows:
 
       - id: execute_activation
         action: utter_activate_card_successful
-        next: END
+      - link: leave_feedback

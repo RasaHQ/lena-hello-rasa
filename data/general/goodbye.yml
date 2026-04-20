@@ -1,6 +1,7 @@
 flows: 
   goodbye:
     description: Handle user goodbye messages, say farewell, and collect feedback
+    run_pattern_completed: false
     steps:
       - action: utter_goodbye
       - link: leave_feedback

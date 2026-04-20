@@ -8,7 +8,9 @@ flows:
           - if: slots.cards_list
             then:
               - action: utter_list_cards
-                next: END
+                next: feedback
           - else:
               - action: utter_no_cards
-                next: END
+                next: feedback
+      - id: feedback
+        link: leave_feedback

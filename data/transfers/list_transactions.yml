@@ -17,11 +17,13 @@ flows:
             then: show_all_transactions
           - else:
             - action: utter_no_next_option
-              next: END
+              next: feedback
       - id: show_scheduled_transactions
         link: list_scheduled_transactions
       - id: show_all_transactions
         link: list_all_transactions
+      - id: feedback
+        link: leave_feedback
 
   list_all_transactions:
     name: View All Transactions

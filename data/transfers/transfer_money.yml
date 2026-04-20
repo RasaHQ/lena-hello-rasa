@@ -27,8 +27,11 @@ flows:
 
       - id: perform_self_transfer
         call: move_money_between_accounts
-        next: END
+        next: feedback
 
       - id: perform_third_party_transfer
         call: transfer_money_to_a_third_party
-        next: END
+        next: feedback
+
+      - id: feedback
+        link: leave_feedback
