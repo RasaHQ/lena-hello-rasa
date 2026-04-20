@@ -3,13 +3,15 @@ language: en
 additional_languages:
   - fr
   - de
-assistant_id: genius-test
+assistant_id: hello-banking
 pipeline:
 - name: CompactLLMCommandGenerator
   llm:
     model_group: openai-gpt-4o
   flow_retrieval:
-    active: false
+    embeddings:
+      model_group: openai-embeddings
+
 policies:
 - name: FlowPolicy
 - name: EnterpriseSearchPolicy
